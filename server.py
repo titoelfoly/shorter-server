@@ -1,5 +1,5 @@
 from models.db import MongoAPI
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify, Response, redirect
 from flask_cors import CORS
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import JWTManager, jwt_required , create_access_token, get_jwt_identity
@@ -20,7 +20,11 @@ auth = MongoAPI({
     "collection":"users"
     })
 
-
+@app.after_request
+def add_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    return response 
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -60,7 +64,12 @@ def links():
     print(user_id)
     return json.dumps(data.get_links(user_id))    
 
-
+@app.route("/<slug>", methods=["GET"])
+def map_to_url(slug):
+    # load from db where slug = slug
+    # get the url from the database
+    # redirect to that url
+    return redirect(f'/{slug}')
         
 
 shorter_put_args = reqparse.RequestParser()
