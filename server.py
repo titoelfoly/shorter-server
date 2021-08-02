@@ -69,7 +69,8 @@ def map_to_url(slug):
     # load from db where slug = slug
     # get the url from the database
     # redirect to that url
-    return redirect(f'/{slug}')
+    response = data.read(slug)
+    return redirect(response[0]['web_link'])
         
 
 shorter_put_args = reqparse.RequestParser()
@@ -106,4 +107,4 @@ api.add_resource(ShorterPost,"/shorter/")
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=5002)
+    app.run(debug=True,host="localhost",port=5000)
