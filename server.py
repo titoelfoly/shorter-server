@@ -72,6 +72,11 @@ def map_to_url(slug):
     response = data.read(slug)
     return redirect(response[0]['web_link'])
         
+@app.route("/shorter/<slug>", methods=["GET"])
+def getLinks():
+    response = data.read(slug)
+    print(response)
+    return response
 
 shorter_put_args = reqparse.RequestParser()
 shorter_put_args.add_argument("slug", type=str, help="Slug")
@@ -102,7 +107,7 @@ class ShorterPost(Resource):
             return jsonify(sluggy)
         except ConnectionError:
             raise ConnectionError('connection failed')
-api.add_resource(Shorter,"/shorter/<slug>")
+# api.add_resource(Shorter,"/shorter/<slug>")
 api.add_resource(ShorterPost,"/shorter/")
 
 
