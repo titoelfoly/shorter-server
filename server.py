@@ -73,7 +73,7 @@ def map_to_url(slug):
     return redirect(response[0]['web_link'])
         
 @app.route("/shorter/<slug>", methods=["GET"])
-def getLinks():
+def getLinks(slug):
     response = data.read(slug)
     print(response)
     return response
